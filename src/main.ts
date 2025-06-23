@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Autoriser CORS pour les requêtes WebSocket depuis ton frontend
   app.enableCors({
-    origin: "http://localhost:3000", // Allow only this origin
+    origin: "https://chat-front-neon.vercel.app/", // Allow only this origin
     methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
     credentials: true, // Allow cookies
   });
