@@ -6,12 +6,22 @@ import * as cors from "cors";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Autoriser CORS pour les requêtes WebSocket depuis ton frontend
-  app.enableCors({
-    origin: "https://chat-front-neon.vercel.app/", // Allow only this origin
-    methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
-    credentials: true, // Allow cookies
-  });
+ app.enableCors({
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      "https://chat-front-neon.vercel.app",
+      "http://localhost:3000",
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,
+});
+
   // Activer WebSockets
   app.useWebSocketAdapter(new IoAdapter(app));
 
